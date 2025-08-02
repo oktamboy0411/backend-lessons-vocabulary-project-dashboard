@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router";
+import ImageModal from "~/components/imageModel";
 import { API_URL } from "~/config";
 
 interface VocabularyItem {
@@ -41,6 +42,8 @@ function Vocabulary() {
   const [data, setData] = useState<VocabularyItem[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
+
+  const [selectedImage, setSelectedImage] = useState<string | undefined>("");
 
   const [pagination, setPagination] = useState<ApiResponse["pagination"]>({
     page: 1,
@@ -110,7 +113,12 @@ function Vocabulary() {
     if (!window.confirm("Are you sure you want to delete this item?")) return;
 
     try {
-      const res = await fetch(`/vocabulary/delete/${id}`, { method: "DELETE" });
+      const res = await fetch(API_URL + `/vocabulary/delete/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: "bearer " + localStorage.getItem("token"),
+        },
+      });
       const json = await res.json();
       if (json.success) {
         fetchData();
@@ -123,7 +131,7 @@ function Vocabulary() {
   };
 
   return (
-    <div className="max-w-5xl mx-auto p-4">
+    <div className="p-4">
       <h1 className="text-3xl font-bold mb-6">Vocabulary</h1>
 
       {/* Filter va search */}
@@ -201,6 +209,7 @@ function Vocabulary() {
                     <img
                       src={item.image}
                       alt={item.name}
+                      onClick={() => setSelectedImage(item.image)}
                       className="h-12 w-12 object-cover rounded"
                     />
                   ) : (
@@ -277,6 +286,12 @@ function Vocabulary() {
             Next
           </button>
         </div>
+      )}
+      {selectedImage && (
+        <ImageModal
+          imageUrl={selectedImage}
+          onClose={() => setSelectedImage("")}
+        />
       )}
     </div>
   );

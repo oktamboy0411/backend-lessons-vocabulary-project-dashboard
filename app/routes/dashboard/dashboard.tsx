@@ -3,8 +3,9 @@ import { NavLink, Outlet } from "react-router";
 const navLinks = [
   { path: "/", label: "Home" },
   { path: "/vocabulary", label: "Vocabulary" },
-  { path: "/categories", label: "Categories" },
-  { path: "/settings", label: "Settings" },
+  { path: "/section", label: "Sections" },
+  { path: "/category", label: "Categories" },
+  { path: "/word", label: "Words" },
 ];
 
 function Navbar() {
