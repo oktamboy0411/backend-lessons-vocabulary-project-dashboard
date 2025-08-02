@@ -9,7 +9,7 @@ const navLinks = [
 
 function Navbar() {
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen max-w-[1800px] mx-auto">
       {/* Sidebar */}
       <nav className="w-64 bg-white shadow-md p-6 space-y-4 border-r">
         <h2 className="text-2xl font-bold mb-6">Dashboard</h2>

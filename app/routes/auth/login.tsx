@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import axios from "axios";
 import { API_URL } from "~/config";
 import { Eye, EyeOff } from "lucide-react";
 
@@ -29,25 +30,25 @@ function Login() {
   };
 
   const handleLogin = async () => {
+    setError(""); // reset error
     try {
-      const res = await fetch(`${API_URL}/admin/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const res = await axios.post<LoginResponse>(
+        `${API_URL}/admin/login`,
+        formData
+      );
 
-      const data: LoginResponse = await res.json();
-
-      if (data.success) {
-        localStorage.setItem("token", data.token);
+      if (res.data.success) {
+        localStorage.setItem("token", res.data.token);
         navigate("/");
       } else {
         setError("Login failed. Check phone or password.");
       }
-    } catch (err) {
-      setError("Server error. Please try again.");
+    } catch (err: any) {
+      if (axios.isAxiosError(err) && err.response?.data?.message) {
+        setError(err.response.data.message);
+      } else {
+        setError("Server error. Please try again.");
+      }
     }
   };
 

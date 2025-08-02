@@ -1,6 +1,8 @@
 import { useState } from "react";
+import axios from "axios";
 import { API_URL } from "~/config";
-import { Eye, EyeOff } from "lucide-react"; // Ixtiyoriy: ikonka uchun (tailwind + lucide)
+import { Eye, EyeOff } from "lucide-react";
+import { useNavigate } from "react-router";
 
 interface FormData {
   name: string;
@@ -28,6 +30,8 @@ function Signup() {
   const [message, setMessage] = useState<string>("");
   const [success, setSuccess] = useState<boolean | null>(null);
 
+  const navigate = useNavigate();
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -46,20 +50,22 @@ function Signup() {
     }
 
     try {
-      const res = await fetch(API_URL + "/admin/sign-up", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data: ResponseData = await res.json();
-      setSuccess(data.success);
-      setMessage(data.message);
-    } catch (err) {
+      const res = await axios.post<ResponseData>(
+        `${API_URL}/admin/sign-up`,
+        formData
+      );
+      setSuccess(res.data.success);
+      setMessage(res.data.message);
+      if (res.data.success) {
+        navigate("/login");
+      }
+    } catch (err: any) {
       setSuccess(false);
-      setMessage("Something went wrong.");
+      if (axios.isAxiosError(err) && err.response?.data?.message) {
+        setMessage(err.response.data.message);
+      } else {
+        setMessage("Something went wrong.");
+      }
     }
   };
 
@@ -114,7 +120,7 @@ function Signup() {
           </button>
         </div>
 
-        {/* Parolni tasdiqlash */}
+        {/* Confirm password */}
         <input
           type={passwordVisible ? "text" : "password"}
           name="confirmPassword"
