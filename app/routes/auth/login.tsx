@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, Link } from "react-router";
 import axios from "axios";
 import { API_URL } from "~/config";
 import { Eye, EyeOff } from "lucide-react";
@@ -95,6 +95,15 @@ function Login() {
         {error && (
           <p className="text-center text-red-600 font-medium">{error}</p>
         )}
+        <div className="text-center text-sm">
+          Don't have an account?{" "}
+          <Link
+            to="/signup"
+            className="text-blue-600 hover:underline font-medium"
+          >
+            Sign up
+          </Link>
+        </div>
       </div>
     </div>
   );

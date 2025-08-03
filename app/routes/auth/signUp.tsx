@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { API_URL } from "~/config";
 import { Eye, EyeOff } from "lucide-react";
-import { useNavigate } from "react-router";
+import { useNavigate, Link } from "react-router";
 
 interface FormData {
   name: string;
@@ -146,6 +146,15 @@ function Signup() {
             {message}
           </p>
         )}
+        <div className="text-center text-sm">
+          Already have an account?{" "}
+          <Link
+            to="/login"
+            className="text-blue-600 hover:underline font-medium"
+          >
+            Login
+          </Link>
+        </div>
       </div>
     </div>
   );
