@@ -195,12 +195,14 @@ function SectionPage() {
                   <b> ({item.vocabulary.type})</b>
                 </td>
                 <td className="border px-4 py-2">
-                  {new Date(item.created_at).toLocaleDateString()}
+                  {new Date(item.created_at).toLocaleDateString()} <br />
+                  {new Date(item.created_at).toLocaleTimeString()}
                 </td>
                 <td className="border px-4 py-2">
-                  {new Date(item.updated_at).toLocaleDateString()}
+                  {new Date(item.updated_at).toLocaleDateString()} <br />
+                  {new Date(item.updated_at).toLocaleTimeString()}
                 </td>
-                <td className="border px-4 py-2 text-center space-x-2">
+                <td className="border flex flex-col gap-1 border-gray-300 px-4 py-2 text-center">
                   <Link
                     to={`/section/update/${item._id}`}
                     className="bg-yellow-400 px-3 py-1 rounded hover:bg-yellow-500 text-white"

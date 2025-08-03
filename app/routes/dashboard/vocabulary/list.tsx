@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router";
 import ImageModal from "~/components/imageModel";
+import Tooltip from "~/components/tooltip";
 import { API_URL } from "~/config";
 
 interface VocabularyItem {
@@ -223,15 +224,19 @@ function Vocabulary() {
                   {item.type}
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
-                  {item.description}
+                  <Tooltip content={item.description}>
+                    <span>{item.description?.slice(0, 10)}...</span>
+                  </Tooltip>
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
-                  {new Date(item.created_at).toLocaleDateString()}
+                  {new Date(item.created_at).toLocaleDateString()} <br />
+                  {new Date(item.created_at).toLocaleTimeString()}
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
-                  {new Date(item.updated_at).toLocaleDateString()}
+                  {new Date(item.updated_at).toLocaleDateString()} <br />
+                  {new Date(item.updated_at).toLocaleTimeString()}
                 </td>
-                <td className="border border-gray-300 px-4 py-2 text-center space-x-2">
+                <td className="border flex flex-col gap-1 border-gray-300 px-4 py-2 text-center">
                   <Link
                     to={`/vocabulary/update/${item._id}`}
                     className="bg-yellow-400 px-3 py-1 rounded hover:bg-yellow-500 text-white"

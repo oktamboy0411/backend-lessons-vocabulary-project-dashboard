@@ -234,7 +234,7 @@ function WordPage() {
                 <td className="border px-4 py-2">
                   {item.category ? item.category.name : "—"}
                 </td>
-                <td className="border px-4 py-2 text-center space-x-2">
+                <td className="border flex flex-col gap-1 border-gray-300 px-4 py-2 text-center">
                   <Link
                     to={`/word/update/${item._id}`}
                     className="bg-yellow-400 px-3 py-1 rounded hover:bg-yellow-500 text-white"

@@ -16,6 +16,8 @@ interface CategoryItem {
     _id: string;
     name: string;
   };
+  created_at: string;
+  updated_at: string;
 }
 
 interface ApiResponse {
@@ -180,6 +182,8 @@ function CategoryPage() {
               <th className="border px-4 py-2 text-left">Name</th>
               <th className="border px-4 py-2 text-left">Vocabulary</th>
               <th className="border px-4 py-2 text-left">Section</th>
+              <th className="border px-4 py-2 text-left">Created</th>
+              <th className="border px-4 py-2 text-left">Updated</th>
               <th className="border px-4 py-2 text-center">Actions</th>
             </tr>
           </thead>
@@ -191,7 +195,15 @@ function CategoryPage() {
                   {item.vocabulary.name} ({item.vocabulary.type})
                 </td>
                 <td className="border px-4 py-2">{item.section.name}</td>
-                <td className="border px-4 py-2 text-center space-x-2">
+                <td className="border px-4 py-2">
+                  {new Date(item.created_at).toLocaleDateString()} <br />
+                  {new Date(item.created_at).toLocaleTimeString()}
+                </td>
+                <td className="border px-4 py-2">
+                  {new Date(item.updated_at).toLocaleDateString()} <br />
+                  {new Date(item.updated_at).toLocaleTimeString()}
+                </td>
+                <td className="border flex flex-col gap-1 border-gray-300 px-4 py-2 text-center">
                   <Link
                     to={`/category/update/${item._id}`}
                     className="bg-yellow-400 px-3 py-1 rounded hover:bg-yellow-500 text-white"
