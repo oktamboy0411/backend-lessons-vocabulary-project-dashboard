@@ -1,4 +1,6 @@
-import { NavLink, Outlet } from "react-router";
+import { useEffect, useState } from "react";
+import { NavLink, Outlet, useNavigate } from "react-router";
+import { API_URL } from "~/config";
 
 const navLinks = [
   { path: "/", label: "Home" },
@@ -8,12 +10,71 @@ const navLinks = [
   { path: "/word", label: "Words" },
 ];
 
+interface AdminProfile {
+  _id: string;
+  name: string;
+  phone: string;
+  role: string;
+  created_at: string;
+  updated_at: string;
+}
+
 function Navbar() {
+  const navigate = useNavigate();
+  const [admin, setAdmin] = useState<AdminProfile | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const checkAdmin = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        navigate("/login");
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_URL}/admin/profile`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const json = await res.json();
+
+        if (json.success && json.data?.role === "admin") {
+          setAdmin(json.data);
+        } else {
+          navigate("/login");
+        }
+      } catch {
+        navigate("/login");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkAdmin();
+  }, [navigate]);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <p className="text-lg text-gray-600">Loading admin panel...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="flex min-h-screen max-w-[1800px] mx-auto">
       {/* Sidebar */}
       <nav className="w-64 bg-white shadow-md p-6 space-y-4 border-r">
-        <h2 className="text-2xl font-bold mb-6">Dashboard</h2>
+        <h2 className="text-2xl font-bold mb-2">Dashboard</h2>
+        {admin && (
+          <div className="text-sm text-gray-600 mb-4">
+            <p className="font-semibold">{admin.name}</p>
+            <p className="text-xs">{admin.phone}</p>
+          </div>
+        )}
         <ul className="space-y-2">
           {navLinks.map(({ path, label }) => (
             <li key={path}>

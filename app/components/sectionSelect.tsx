@@ -19,6 +19,7 @@ interface SectionSelectProps {
   onChange: (value: string) => void;
   className?: string;
   includeAllOption?: boolean;
+  vocabularyId?: string; // YANGI: faqat shu vocabulary bo‘yicha filterlash
 }
 
 function SectionSelect({
@@ -26,6 +27,7 @@ function SectionSelect({
   onChange,
   className = "",
   includeAllOption = true,
+  vocabularyId,
 }: SectionSelectProps) {
   const [options, setOptions] = useState<Section[]>([]);
   const [filteredOptions, setFilteredOptions] = useState<Section[]>([]);
@@ -40,7 +42,12 @@ function SectionSelect({
     const fetchSections = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`${API_URL}/section/get-all`);
+        const params = new URLSearchParams();
+        if (vocabularyId) params.append("vocabulary", vocabularyId);
+
+        const res = await fetch(
+          `${API_URL}/section/get-all?${params.toString()}`
+        );
         const json = await res.json();
 
         if (json.success) {
@@ -57,7 +64,7 @@ function SectionSelect({
     };
 
     fetchSections();
-  }, []);
+  }, [vocabularyId]);
 
   useEffect(() => {
     if (searchTerm === "") {
