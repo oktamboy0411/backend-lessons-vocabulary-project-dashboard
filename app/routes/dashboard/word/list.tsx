@@ -219,7 +219,14 @@ function WordPage() {
                     "—"
                   )}
                 </td>
-                <td className="border px-4 py-2">{item.name}</td>
+                <td className="border px-4 py-2">
+                  <Link
+                    to={`/word/single/${item._id}`}
+                    className="text-blue-600 hover:underline font-medium"
+                  >
+                    {item.name}
+                  </Link>
+                </td>
                 <td className="border px-4 py-2">
                   {item.vocabulary.name} ({item.vocabulary.type})
                 </td>
