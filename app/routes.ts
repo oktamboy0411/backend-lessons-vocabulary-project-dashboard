@@ -15,6 +15,10 @@ export default [
     route("/category", "routes/dashboard/category/list.tsx"),
     route("/category/create", "routes/dashboard/category/create.tsx"),
     route("/category/update/:id", "routes/dashboard/category/update.tsx"),
+
+    route("/word", "routes/dashboard/word/list.tsx"),
+    route("/word/create", "routes/dashboard/word/create.tsx"),
+    route("/word/update/:id", "routes/dashboard/word/update.tsx"),
   ]),
   route("/signup", "routes/auth/signup.tsx"),
   route("/login", "routes/auth/login.tsx"),
