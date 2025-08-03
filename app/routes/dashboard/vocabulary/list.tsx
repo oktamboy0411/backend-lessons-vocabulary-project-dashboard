@@ -32,7 +32,7 @@ const TYPE_OPTIONS = [
   { label: "History", value: "history" },
 ];
 
-const LIMIT = 5;
+const LIMIT = 10;
 
 function Vocabulary() {
   const [type, setType] = useState<string>("");

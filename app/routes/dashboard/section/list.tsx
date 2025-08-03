@@ -30,7 +30,7 @@ interface ApiResponse {
   message?: string;
 }
 
-const LIMIT = 5;
+const LIMIT = 10;
 
 function SectionPage() {
   const [vocabularyId, setVocabularyId] = useState<string>("");

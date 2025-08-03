@@ -31,7 +31,7 @@ interface ApiResponse {
   message?: string;
 }
 
-const LIMIT = 5;
+const LIMIT = 10;
 
 function CategoryPage() {
   const [search, setSearch] = useState("");

@@ -64,39 +64,52 @@ function Navbar() {
     );
   }
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
+
   return (
-    <div className="flex min-h-screen max-w-[1800px] mx-auto">
+    <div className="flex h-screen max-w-[1800px] mx-auto">
       {/* Sidebar */}
-      <nav className="w-64 bg-white shadow-md p-6 space-y-4 border-r">
-        <h2 className="text-2xl font-bold mb-2">Dashboard</h2>
-        {admin && (
-          <div className="text-sm text-gray-600 mb-4">
-            <p className="font-semibold">{admin.name}</p>
-            <p className="text-xs">{admin.phone}</p>
-          </div>
-        )}
-        <ul className="space-y-2">
-          {navLinks.map(({ path, label }) => (
-            <li key={path}>
-              <NavLink
-                to={path}
-                className={({ isActive }) =>
-                  `block px-4 py-2 rounded-md text-lg font-medium ${
-                    isActive
-                      ? "bg-blue-600 text-white"
-                      : "text-gray-700 hover:bg-gray-100"
-                  }`
-                }
-              >
-                {label}
-              </NavLink>
-            </li>
-          ))}
-        </ul>
+      <nav className="w-64 bg-white shadow-md p-6 flex flex-col justify-between border-r">
+        <div>
+          <h2 className="text-2xl font-bold mb-2">Dashboard</h2>
+          {admin && (
+            <div className="text-sm text-gray-600 mb-4">
+              <p className="font-semibold">{admin.name}</p>
+              <p className="text-xs">{admin.phone}</p>
+            </div>
+          )}
+          <ul className="space-y-2">
+            {navLinks.map(({ path, label }) => (
+              <li key={path}>
+                <NavLink
+                  to={path}
+                  className={({ isActive }) =>
+                    `block px-4 py-2 rounded-md text-lg font-medium ${
+                      isActive
+                        ? "bg-blue-600 text-white"
+                        : "text-gray-700 hover:bg-gray-100"
+                    }`
+                  }
+                >
+                  {label}
+                </NavLink>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <button
+          onClick={handleLogout}
+          className="w-full mt-4 text-left px-4 py-2 rounded-md text-lg font-medium text-red-600 hover:bg-red-100 transition"
+        >
+          Logout
+        </button>
       </nav>
 
       {/* Main content */}
-      <main className="flex-1 p-6 bg-gray-50">
+      <main className="flex-1 p-6 bg-gray-50 overflow-y-auto">
         <Outlet />
       </main>
     </div>
